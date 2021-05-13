@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+ <meta charset="UTF-8">
+ <title>SPOTIFY LYRICS</title>
+</head>
+<script type="text/javascript">
+                var intervalID = setInterval(update_values, 1000);
+                $SCRIPT_ROOT = {{ request.script_root|tojson|safe}};
+function update_values() {
+        $.getJSON($SCRIPT_ROOT + '/song',
+      function(data) {
+        $('#song').text(data.song);
+       });
+      $.getJSON($SCRIPT_ROOT + '/artists',
+      function(data) {
+        $('#artists').text(data.artists);
+       });
+      $.getJSON($SCRIPT_ROOT + '/lyrics',
+      function(data) {
+        $('#lyrics').html(data.lyrics);
+       });
+    };
+</script>
+ <body onload="update_values();">
+        <h1>Lyrics</h1>
+        <p>
+            <span id="song">Loading...</span> <br>
+            <span id="artists"></span> <br>
+            <span id="lyrics"></span> 
+        <script>
+            document.getElementById("result").innerHTML;
+        </script>
+    </body>
+
+      
