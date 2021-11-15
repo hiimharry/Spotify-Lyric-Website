@@ -37,10 +37,10 @@ def lyrics_from_song_path(path):
     html = BeautifulSoup(page.text, "html.parser")
     [h.unwrap() for h in html('a')]
     lyrics = None
-    lyrics = html.find("div", class_=re.compile(r'^Lyrics__Container'))
+    lyrics = html.find_all("div", class_=re.compile(r'^Lyrics__Container'))
     if lyrics == None:
         return "Loading..."
-    return str(lyrics)
+    return "".join([(str(x) + "<br>") for x in lyrics])
 
 def getSong():
     results = updateSong()
