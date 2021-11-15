@@ -4,7 +4,7 @@ app = Flask(__name__)
 
 @app.route('/')
 def main():
-	return render_template('lyrics.html')
+	return render_template('index.html')
     
 @app.route('/lyrics', methods= ['GET'])
 def lyrics():

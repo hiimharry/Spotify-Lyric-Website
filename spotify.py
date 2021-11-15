@@ -14,7 +14,7 @@ username = ""
 
 token = util.prompt_for_user_token(username, scope, client_id=cid,
                            client_secret=secret,
-                           redirect_uri='http://127.0.0.1:5000/')
+                           redirect_uri='https://google.com')
                            
 def updateSong():
     return sp.current_user_playing_track()
@@ -37,7 +37,7 @@ def lyrics_from_song_path(path):
     html = BeautifulSoup(page.text, "html.parser")
     [h.unwrap() for h in html('a')]
     lyrics = None
-    lyrics = html.find("div", class_=re.compile(r'^Lyrics'))
+    lyrics = html.find("div", class_=re.compile(r'^Lyrics__Container'))
     if lyrics == None:
         return "Loading..."
     return str(lyrics)
@@ -61,7 +61,7 @@ def getArtists():
 
 def getSongID(artists, search):
     for hit in search.json()['response']['hits']:
-        songArtist = hit['result']['primary_artist']['name'].lower()
+        songArtist = hit['result']['primary_artist']['name'].lower().replace("’", "'")
 		#genius randomly appends a blank character infront of artist names for some reason?
         if songArtist[0] == '\u200b':
             songArtist = songArtist[1:]
@@ -90,7 +90,7 @@ def getLyrics():
             query = song
             for artist in artists: 
                 query += " " + artist
-            data = {'q': query}
+            data = {'q' : query}
             search = requests.get(base_url, params=data, headers=headers)
             song_id = getSongID(artists, search)
             if song_id:
